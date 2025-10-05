@@ -104,25 +104,17 @@ stdenv.mkDerivation rec {
     mkdir -p "$out/bin" "$out/lib"
     # binary
     install -m755 love "$out/bin/love"
-    # shared lib: keep the exact filename the binary links against
-    if [ -f libliblove.dylib ]; then
-      install -m755 libliblove.dylib "$out/lib/"
-    elif [ -f liblove.dylib ]; then
-      # fallback: also provide the name the binary expects
-      install -m755 liblove.dylib "$out/lib/"
-      ln -s liblove.dylib "$out/lib/libliblove.dylib"
-    fi
+    # shared lib: install all dylib files found
+    install -m755 lib*.dylib "$out/lib/" 2>/dev/null || true
     runHook postInstall
   '';
 
   # On Darwin, make sure install_name IDs and rpaths are sane at runtime.
   postFixup = lib.optionalString stdenv.hostPlatform.isDarwin ''
     # Give the dylib an @rpath id so dependents resolve it via the binary's rpath
-    if [ -f "$out/lib/libliblove.dylib" ]; then
-      install_name_tool -id "@rpath/libliblove.dylib" "$out/lib/libliblove.dylib" || true
-    fi
+    install_name_tool -id "@rpath/libliblove.dylib" "$out/lib/libliblove.dylib" 2>/dev/null || true
     # Ensure the executable has an rpath to ../lib (redundant with CMake flags but safe)
-    install_name_tool -add_rpath "@loader_path/../lib" "$out/bin/love" || true
+    install_name_tool -add_rpath "@loader_path/../lib" "$out/bin/love" 2>/dev/null || true
   '';
 
   meta = {
