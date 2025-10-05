@@ -5,7 +5,6 @@
   pkg-config,
   SDL2,
   openal,
-  luajit,
   freetype,
   physfs,
   libmodplug,
