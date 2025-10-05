@@ -88,10 +88,9 @@ stdenv.mkDerivation rec {
     # Make the installed binary find @rpath/*.dylib in $out/lib
     "-DCMAKE_MACOSX_RPATH=ON"
     "-DCMAKE_BUILD_WITH_INSTALL_RPATH=ON"
-    "-DCMAKE_INSTALL_RPATH=@loader_path/../lib"
   ]
-  ++ lib.optionals stdenv.hostPlatform.isLinux [
-    "-DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib"
+  ++ [
+    "-DCMAKE_INSTALL_RPATH=${placeholder "out"}/lib"
   ];
 
   # Ensure common macOS frameworks are linked.
