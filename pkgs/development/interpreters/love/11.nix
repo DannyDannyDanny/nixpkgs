@@ -61,19 +61,19 @@ stdenv.mkDerivation rec {
   ];
 
   cmakeFlags = [
-    "-DLIBLOVE_USE_SYSTEM_ZLIB=ON"
-    "-DLIBLOVE_USE_SYSTEM_LIBPNG=ON"
-    "-DLIBLOVE_USE_SYSTEM_LIBJPEG=ON"
-    "-DLIBLOVE_USE_SYSTEM_WEBP=ON"
-    "-DLIBLOVE_USE_SYSTEM_FREETYPE=ON"
-    "-DLIBLOVE_USE_SYSTEM_PHYSFS=ON"
-    "-DLIBLOVE_USE_SYSTEM_OPENAL=ON"
-    "-DLIBLOVE_USE_SYSTEM_SDL2=ON"
-    "-DLIBLOVE_USE_SYSTEM_OGG=ON"
-    "-DLIBLOVE_USE_SYSTEM_VORBIS=ON"
-    "-DLIBLOVE_USE_SYSTEM_THEORA=ON"
-    "-DLIBLOVE_USE_SYSTEM_MODPLUG=ON"
-    "-DLIBLOVE_USE_SYSTEM_MPG123=ON"
+    (lib.cmakeBool "LIBLOVE_USE_SYSTEM_ZLIB" true)
+    (lib.cmakeBool "LIBLOVE_USE_SYSTEM_LIBPNG" true)
+    (lib.cmakeBool "LIBLOVE_USE_SYSTEM_LIBJPEG" true)
+    (lib.cmakeBool "LIBLOVE_USE_SYSTEM_WEBP" true)
+    (lib.cmakeBool "LIBLOVE_USE_SYSTEM_FREETYPE" true)
+    (lib.cmakeBool "LIBLOVE_USE_SYSTEM_PHYSFS" true)
+    (lib.cmakeBool "LIBLOVE_USE_SYSTEM_OPENAL" true)
+    (lib.cmakeBool "LIBLOVE_USE_SYSTEM_SDL2" true)
+    (lib.cmakeBool "LIBLOVE_USE_SYSTEM_OGG" true)
+    (lib.cmakeBool "LIBLOVE_USE_SYSTEM_VORBIS" true)
+    (lib.cmakeBool "LIBLOVE_USE_SYSTEM_THEORA" true)
+    (lib.cmakeBool "LIBLOVE_USE_SYSTEM_MODPLUG" true)
+    (lib.cmakeBool "LIBLOVE_USE_SYSTEM_MPG123" true)
     # Lua 5.1 (Darwin lib name differs from Linux)
     "-DLUA_INCLUDE_DIR=${lua5_1.out}/include"
     "-DLUA_LIBRARIES=${
